@@ -229,3 +229,15 @@ if __name__ == '__main__':
     D = sum(depth_list) / len(depth_list)
     print("D: {D:.4f}".format(D=D))
     print("GR: {GR:.4f}".format(GR=sqrt(B)/D))
+    print("=========================================")
+    data_d = [0 for i in range(200)]
+    d_max = 0
+    for d_i in depth_list:
+        if d_i > d_max:
+            d_max = d_i
+        data_d[d_i] += 1
+    print("d_max: {d}".format(d=d_max))
+    # print(data_d)
+    data_d = data_d[0:d_max+1]
+    for i in range(1, len(data_d)):
+        print("d={index}: {data}".format(index=i, data=data_d[i]))
