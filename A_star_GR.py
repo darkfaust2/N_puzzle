@@ -204,16 +204,20 @@ if __name__ == '__main__':
     temp = 0
     branch_list = []
     depth_list = []
+    existed_start = []
     while temp < n:
         state1 = [1, 2, 3, 4, 5, 6, 8, 7, 0]
         state2 = state1.copy()
         random.shuffle(state1)
+        while state1 in existed_start:
+            random.shuffle(state1)
         if state1 == state2:
             continue
         a_star = AStar(state1, state2)
         if not a_star.is_solvable():
             continue
         a_star.search()
+        existed_start.append(state1)
         # print("search complete")
         branch_list.append(round(sum(a_star.b_list)/len(a_star.b_list), 2))
         depth_list.append(a_star.step)
