@@ -204,27 +204,28 @@ if __name__ == '__main__':
     temp = 0
     branch_list = []
     depth_list = []
-    existed_start = []
+    # 用来记录已经生成过的初始状态
+    signed_start = []
+    unsolvable_start = []
     while temp < n:
         state1 = [1, 2, 3, 4, 5, 6, 8, 7, 0]
         state2 = state1.copy()
         random.shuffle(state1)
-        while state1 in existed_start:
+        while (state1 in signed_start) or (state1 in unsolvable_start) or (state1 == state2):
             random.shuffle(state1)
-        if state1 == state2:
-            continue
         a_star = AStar(state1, state2)
         if not a_star.is_solvable():
+            unsolvable_start.append(state1)
             continue
+        signed_start.append(state1)
         a_star.search()
-        existed_start.append(state1)
         # print("search complete")
         branch_list.append(round(sum(a_star.b_list)/len(a_star.b_list), 2))
         depth_list.append(a_star.step)
         temp += 1
         # a_star.print_grid()
     B = sum(branch_list) / len(branch_list)
-    print(B)
+    print("B: {B:.4f}".format(B=B))
     D = sum(depth_list) / len(depth_list)
-    print(D)
-    print(sqrt(B)/D)
+    print("D: {D:.4f}".format(D=D))
+    print("GR: {GR:.4f}".format(GR=sqrt(B)/D))
